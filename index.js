@@ -32,6 +32,14 @@ async function run() {
       const database = client.db("usersDB");
       const userCollection = database.collection("users");
 
+      // GET API for Users
+      app.get("/users", async (req, res) => {
+         // how to get the data?
+         const cursor = userCollection.find();
+         const result = await cursor.toArray();
+         res.send(result);
+      });
+
       // POST API
       app.post("/users", async (req, res) => {
          const user = req.body;
