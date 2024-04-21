@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const port = process.env.PORT || 3000;
 
@@ -45,6 +45,20 @@ async function run() {
          const user = req.body;
          console.log("new user is here :", user);
          const result = await userCollection.insertOne(user);
+         res.send(result);
+      });
+
+      // Delete API - Deleting single user from database
+      app.delete("/users/:id", async (req, res) => {
+         // getting which id to delete
+         const id = req.params.id;
+         console.log(`delete this id from db: ${id}`);
+
+         // query (field name in database: value we seek)
+
+         const query = { _id: new ObjectId(id) };
+
+         const result = await userCollection.deleteOne(query);
          res.send(result);
       });
 
